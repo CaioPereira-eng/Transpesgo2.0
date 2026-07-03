@@ -1612,28 +1612,6 @@ async function restaurarRota(origem, destino, pontos) {
   }
 }
 
-/* =========================================================
-   MAPA ESTÁTICO / PDF
-   ========================================================= */
-async function gerarMapaEstatico(origem, destino, obstaculosParaPDF) {
-  const criticos = obstaculosParaPDF.filter(o => o.critico).slice(0, 8);
-  const seguros  = obstaculosParaPDF.filter(o => !o.critico).slice(0, 5);
-
-  const originMarker      = origem  ? `&markers=color:blue|label:S|${encodeURIComponent(origem)}`  : "";
-  const destinationMarker = destino ? `&markers=color:blue|label:F|${encodeURIComponent(destino)}` : "";
-
-  let obstaclesMarkers = "";
-  if (criticos.length) obstaclesMarkers += `&markers=color:red|size:small|${criticos.map(o=>`${o.lat.toFixed(5)},${o.lng.toFixed(5)}`).join("|")}`;
-  if (seguros.length)  obstaclesMarkers += `&markers=color:green|size:small|${seguros.map(o=>`${o.lat.toFixed(5)},${o.lng.toFixed(5)}`).join("|")}`;
-
-  const encodedPath = rotaAtual?.routes?.[0]?.overview_polyline?.points || "";
-  const path = encodedPath ? `&path=color:0xf5a623ff|weight:3|enc:${encodeURIComponent(encodedPath)}` : "";
-
-  return `https://maps.googleapis.com/maps/api/staticmap?size=800x400&scale=2&maptype=roadmap`
-    + originMarker + destinationMarker + obstaclesMarkers + path
-    + `&key=${STATIC_MAPS_KEY}`;
-}
-
 async function capturarMapa() {
   try {
     const canvas = await html2canvas(document.getElementById("map"), { useCORS:true, allowTaint:false, scale:2 });
