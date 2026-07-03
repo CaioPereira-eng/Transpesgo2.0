@@ -432,10 +432,6 @@ input::placeholder { color: var(--muted); }
           <span id="linkCompartilhado" class="export-link" style="cursor:default">Link não gerado ainda</span>
           <button class="copy-btn" onclick="copiarLink()">📋 Copiar link</button>
         </div>
-
-        <button class="btn btn-secondary" onclick="gerarPDF()" id="btnPDF" style="margin-top:8px">
-          📄 Exportar relatório PDF
-        </button>
       </div>
 
       <div class="section" id="secaoResultados" style="display:none">
@@ -540,7 +536,7 @@ function updateActionButtons() {
   setButton("btnCalcular",   enabled);
   setButton("btnVerificar",  enabled && basesCarregadas && hasPath);
   setButton("btnCompartilhar", enabled && hasRoute);
-  setButton("btnPDF",        enabled && hasRoute);
+
 }
 
 function onEnter(action) {
